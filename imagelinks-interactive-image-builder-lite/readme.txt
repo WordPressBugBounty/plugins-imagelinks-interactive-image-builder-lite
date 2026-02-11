@@ -1,10 +1,12 @@
-=== ImageLinks Interactive Image Builder for Wordpress ===
+=== ImageLinks - Interactive Image Builder ===
 Contributors: Avirtum
 Tags: interactive image, floor map, product map, infographics
 Requires at least: 4.0
 Tested up to: 6.5
 Requires PHP: 7.0
 Stable tag: 1.6.1
+License: GPLv3
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Create Interactive Images for Your Site That Empowers Publishers and Bloggers
 

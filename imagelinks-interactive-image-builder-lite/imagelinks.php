@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: ImageLinks
+ * Plugin Name: ImageLinks - Interactive Image Builder
  * Plugin URI: https://avirtum.com/imagelinks-wordpress-plugin/
  * Description: ImageLinks allows you to easily create an interactive image for your site that empowers publishers and bloggers to create more engaging content by adding rich media links to photos. Use this plugin to create interactive news photography, infographics, imagemaps, floormaps and shoppable product catalogs in minutes.
  * Version: 1.6.1
