@@ -44,6 +44,13 @@ https://youtu.be/ioEs6jUVkpw
 
 You can place any markers by simply clicking on an image. Each marker can have its own tooltip which gives an excellent opportunity for creating engaging visual stories & presentations.
 
+
+###🔥 Check out other best WordPress Plugins
+[**HappyVR**](https://wordpress.org/plugins/happyvr/) – virtual tour builder and 360 panorama viewer for WordPress
+[**MediaCommander**](https://wordpress.org/plugins/mediacommander/) – bring folders to media, posts, and pages
+[**NinjaDraw**](https://wordpress.org/plugins/ninjadraw/) – create diagrams, sketches & visual workflows
+
+
 == Screenshots ==
 1. Manage interactive images
 2. Create markers
