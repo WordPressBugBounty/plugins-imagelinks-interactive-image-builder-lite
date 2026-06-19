@@ -13,7 +13,7 @@ Create Interactive Images for Your Site That Empowers Publishers and Bloggers
 == Description ==
 
 ### 📢 Note from the Developer
-To our amazing **Vision** community! We are proud to introduce **[PicPoints](https://wordpress.org/plugins/picpoints/)** - our next-generation interactive image map builder. 
+To our amazing **ImageLinks** community! We are proud to introduce **[PicPoints](https://wordpress.org/plugins/picpoints/)** - our next-generation interactive image map builder. 
 
 It is built on modern web standards to solve old layout problems once and for all. It features full **CSS/JS isolation (Shadow DOM)** to prevent theme conflicts, a powerful **Figma-like vector editor**, and enhanced performance for multi-level floor plans or shoppable lookbooks.
  
