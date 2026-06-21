@@ -1,21 +1,22 @@
 <?php
 /**
- * Plugin Name: ImageLinks - Interactive Image Builder
+ * Plugin Name: ImageLinks - Interactive Image Builder with Hotspots
  * Plugin URI: https://avirtum.com/imagelinks-wordpress-plugin/
  * Description: ImageLinks allows you to easily create an interactive image for your site that empowers publishers and bloggers to create more engaging content by adding rich media links to photos. Use this plugin to create interactive news photography, infographics, imagemaps, floormaps and shoppable product catalogs in minutes.
- * Version: 1.6.2
- * Requires at least: 6.0
- * Requires PHP: 7.4
+ * Version: 1.7.0
+ * Requires at least: 4.6
+ * Requires PHP: 7.0
  * Author: Avirtum
- * Author URI: https://1.envato.market/QJXRz
+ * Author URI: https://1.envato.market/avirtum
  * License: GPLv3
+ * License URI:	https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: imagelinks
  * Domain Path: /languages
  */
 defined('ABSPATH') || exit;
 
 define('IMAGELINKS_PLUGIN_NAME', 'imagelinks');
-define('IMAGELINKS_PLUGIN_VERSION', '1.6.2');
+define('IMAGELINKS_PLUGIN_VERSION', '1.7.0');
 define('IMAGELINKS_DB_VERSION', '1.0.0');
 define('IMAGELINKS_SHORTCODE_NAME', 'imagelinks');
 

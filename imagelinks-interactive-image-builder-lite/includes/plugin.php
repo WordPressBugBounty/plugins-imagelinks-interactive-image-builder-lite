@@ -12,6 +12,7 @@ class ImageLinks_Builder {
 	private $ajax_action_settings_get = NULL;
 	private $ajax_action_delete_data = NULL;
 	private $ajax_action_modal = NULL;
+	private $ajax_action_picpoints_promo = NULL;
 	
 	private $shortcodes = array();
 	
@@ -38,11 +39,13 @@ class ImageLinks_Builder {
 			$this->ajax_action_settings_get = 'imagelinks_ajax_settings_get';
 			$this->ajax_action_delete_data = 'imagelinks_ajax_delete_data';
 			$this->ajax_action_modal = 'imagelinks_ajax_modal';
+			$this->ajax_action_picpoints_promo = 'imagelinks_ajax_picpoints_promo';
 			
 			load_plugin_textdomain('imagelinks', false, dirname(dirname(plugin_basename(__FILE__))) . '/languages/');
 			
 			add_action('admin_menu', [$this, 'admin_menu']);
 			add_action('admin_notices', [$this, 'admin_notices']);
+			add_action('admin_notices', [$this, 'admin_notices_picpoints']);
 			add_action('wp_loaded', [$this, 'page_redirects']);
 			
 			// important, because ajax has another url
@@ -54,6 +57,7 @@ class ImageLinks_Builder {
 			add_action('wp_ajax_' . $this->ajax_action_settings_get, array($this, 'ajax_settings_get'));
 			add_action('wp_ajax_' . $this->ajax_action_delete_data, array($this, 'ajax_delete_data'));
 			add_action('wp_ajax_' . $this->ajax_action_modal, array($this, 'ajax_modal'));
+			add_action('wp_ajax_' . $this->ajax_action_picpoints_promo, [$this, 'ajax_picpoints_promo']);
 		} else {
 			add_shortcode(IMAGELINKS_SHORTCODE_NAME, array($this, 'shortcode'));
 		}
@@ -380,6 +384,137 @@ class ImageLinks_Builder {
 			$data = '<?php' . PHP_EOL . '// silence is golden' . PHP_EOL . '?>';
 			@file_put_contents(IMAGELINKS_PLUGIN_UPLOAD_DIR . '/' . 'index.php', $data);
 		}
+	}
+
+	/**
+   	 * PicPoints promo notice
+   	 */
+	function admin_notices_picpoints()
+	{
+		if (!current_user_can('manage_options')) {
+		return;
+		}
+
+		$promo = get_option('imagelinks_picpoints_promo');
+		if (!is_array($promo)) {
+		$promo = ['status' => 'active', 'remind_at' => 0];
+		}
+
+		$status = isset($promo['status']) ? $promo['status'] : 'active';
+		$remind_at = isset($promo['remind_at']) ? (int) $promo['remind_at'] : 0;
+
+		if ($status === 'dismissed') {
+		return;
+		}
+		if ($status === 'remind' && time() < $remind_at) {
+		return;
+		}
+
+		wp_enqueue_script('jquery');
+
+		$nonce = wp_create_nonce('imagelinks_ajax');
+		$ajax_url = esc_url(admin_url('admin-ajax.php'));
+
+		echo '<div class="notice notice-info imagelinks-picpoints-notice" style="position:relative;">';
+		echo '<p style="font-weight:600;font-size:14px;margin:10px 0 0 0;">';
+		echo esc_html__('To our amazing ImageLinks community!', 'imagelinks');
+		echo '</p>';
+		echo '<p style="font-weight:600;font-size:14px;margin:0 0 10px 0;">';
+		echo esc_html__('We are proud to introduce PicPoints, our next-generation interactive image map builder. 🚀', 'imagelinks');
+		echo '</p>';
+		echo '<p style="margin-bottom:10px;">';
+		echo esc_html__('We built PicPoints from the ground up on modern web standards to solve old, frustrating layout problems once and for all.', 'imagelinks');
+		echo '</p>';
+		echo '<p style="margin-bottom:10px;">';
+		echo esc_html__('Why you’ll love it:', 'imagelinks');
+		echo '</p>';
+		echo '<p style="margin-left:10px;">';
+		echo esc_html__('🛡️ Zero Conflict: Full CSS/JS isolation (Shadow DOM) ensures your maps look perfect without messing up your website theme.', 'imagelinks');
+		echo '</p>';
+		echo '<p style="margin-left:10px;">';
+		echo esc_html__('🎨 Figma-Like Vector Editor: Draw, customize, and place markers & polygons with a powerful, intuitive, and modern editor interface.', 'imagelinks');
+		echo '</p>';
+		echo '<p style="margin-left:10px;">';
+		echo esc_html__('⚡ Pro-Grade Performance: Optimized to handle heavy multi-level floor plans or highly engaging shoppable lookbooks flawlessly.', 'imagelinks');
+		echo '</p>';
+		echo '<p style="margin-top:40px;display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;">';
+		echo '<span style="display:flex;gap:8px;flex-wrap:wrap;">';
+		echo '<a href="https://wordpress.org/plugins/picpoints/" target="_blank" rel="noopener" class="button button-primary button-imagelinks-picpoints-promo">Try Free Version</a>';
+		echo '<a href="https://checkout.freemius.com/product/30659/?billing_cycle=annual&billing_cycle_selector=list&coupon=imagelinks35" target="_blank" rel="noopener" class="button button-primary button-imagelinks-picpoints-promo" style="background:#8e44ad;border-color:#8e44ad;">Get 35% OFF for PRO</a>';
+		echo '</span>';
+		echo '<span style="display:flex;gap:8px;flex-wrap:wrap;">';
+		echo '<button type="button" class="button button-imagelinks-picpoints-remind">' . esc_html__('Remind me later', 'imagelinks') . '</button>';
+		echo '<button type="button" class="button button-imagelinks-picpoints-dismiss">' . esc_html__('No, thanks', 'imagelinks') . '</button>';
+		echo '</span>';
+		echo '</p>';
+		echo '</div>';
+
+		// Inline JS
+		echo '<script>
+		(function($){
+		$(function(){
+			var $notice = $(".imagelinks-picpoints-notice");
+			var ajaxUrl = ' . wp_json_encode($ajax_url) . ';
+			var nonce = ' . wp_json_encode($nonce) . ';
+
+			function sendAction(action){
+			$.post(ajaxUrl, {
+				action: "imagelinks_ajax_picpoints_promo",
+				nonce: nonce,
+				promo_action: action
+			});
+			}
+
+			$notice.on("click", ".button-imagelinks-picpoints-dismiss", function(){
+			sendAction("dismiss");
+			$notice.slideUp(function(){ $notice.remove(); });
+			});
+
+			$notice.on("click", ".button-imagelinks-picpoints-remind", function(){
+			sendAction("remind");
+			$notice.slideUp(function(){ $notice.remove(); });
+			});
+
+			$notice.on("click", ".button-imagelinks-picpoints-promo", function(){
+			$notice.slideUp(function(){ $notice.remove(); });
+			});
+		});
+		})(jQuery);
+		</script>';
+	}
+
+	/**
+	 * Ajax: handle PicPoints promo action (dismiss / remind)
+	*/
+	function ajax_picpoints_promo()
+	{
+		if (!check_ajax_referer('imagelinks_ajax', 'nonce', false)) {
+		wp_send_json_error(['msg' => esc_html__('The operation failed', 'imagelinks')]);
+		}
+
+		if (!current_user_can('manage_options')) {
+		wp_send_json_error(['msg' => esc_html__('Permission denied', 'imagelinks')]);
+		}
+
+		$action = sanitize_key(filter_input(INPUT_POST, 'promo_action'));
+		$now = time();
+
+		if ($action === 'dismiss') {
+		update_option('imagelinks_picpoints_promo', [
+			'status'    => 'dismissed',
+			'remind_at' => 0,
+		], false);
+		} elseif ($action === 'remind') {
+		update_option('imagelinks_picpoints_promo', [
+			'status'    => 'remind',
+			'remind_at' => $now + MONTH_IN_SECONDS,
+		], false);
+		} else {
+		wp_send_json_error(['msg' => esc_html__('Invalid action', 'imagelinks')]);
+		}
+
+		wp_send_json_success(['msg' => 'ok']);
+		wp_die();
 	}
 	
 	/**

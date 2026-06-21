@@ -1,12 +1,12 @@
-=== ImageLinks Interactive Image Builder for Wordpress ===
+=== ImageLinks - Interactive Image Builder with Hotspots ===
 Contributors: Avirtum
 Tags: interactive image, floor map, product map, infographics
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 1.6.2
+Stable tag: 1.7.0
 Requires PHP: 7.4
 License: GPLv3
-License URI: https://gnu.org
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Create Interactive Images for Your Site That Empowers Publishers and Bloggers
 
@@ -83,6 +83,9 @@ All other features are the same as PRO has.
 
 
 == Changelog ==
+
+= 1.7.0 =
+* Added: promotional notice introducing PicPoints
 
 = 1.6.2 =
 * Changed: Updated WordPress compatibility up to version 7.0
