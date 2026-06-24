@@ -3,7 +3,7 @@ Contributors: Avirtum
 Tags: interactive image, floor map, product map, infographics
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 1.7.0
+Stable tag: 1.7.1
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -83,6 +83,9 @@ All other features are the same as PRO has.
 
 
 == Changelog ==
+
+= 1.7.1 =
+* Changed: promotional notice
 
 = 1.7.0 =
 * Added: promotional notice introducing PicPoints
